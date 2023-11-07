@@ -1,0 +1,84 @@
+@import "../../config/global-config-styles.scss";
+
+.content {
+
+    font-size: 18px;
+    color: clr(text-color);
+
+    .content-body {
+        padding-top: 20px;
+        display: flex;
+        justify-content: center;
+        @media (max-width: 767px) {
+            flex-wrap: wrap;
+        }
+        
+
+        &>div {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            @media (max-width: 767px) {
+                width: 100%;
+            }
+        }
+
+        .left {
+            justify-content: flex-start;
+            align-items: flex-start;
+
+            @media (max-width: 767px) {
+                justify-content: center;
+            }
+
+            img {
+                height: 80%;
+
+            }
+        }
+
+        .right {
+            flex-flow: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+
+            @media (max-width: 767px) {
+                justify-content: center;
+            }
+
+            p {
+                margin-top: 20px;
+
+                @media (max-width: 767px) {
+                    font-size: 80%;
+                }
+            }
+
+        }
+
+        // &.lft {
+        //     flex-direction: row-reverse;
+
+        //     .left {
+        //         justify-content: flex-end;
+        //     }
+        // }
+
+
+    }
+
+    &.lft {
+        .content-body {
+            flex-direction: row-reverse;
+            .left {
+                justify-content: flex-end;
+
+                @media (max-width: 767px) {
+                    justify-content: center;
+                }
+            }
+        }
+    }
+}

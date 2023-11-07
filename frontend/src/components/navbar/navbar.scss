@@ -1,0 +1,51 @@
+@import "../../config/global-config-styles.scss";
+
+.Navbar{
+    display: flex;
+    align-items: center;
+    background-color: clr(navbar-background-color);
+    color: clr(navbar-text-color);
+    padding: 5px 15px;
+    .hamburger-icon{
+        display: none;
+    }
+    .logo-container{
+        margin-right: 10px;
+    }
+    @media (max-width: 986px) {
+        display: block;
+        overflow: hidden;
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: flex-start;
+        max-height: 48px;
+        position: relative;
+        transition: max-height 300ms ease-in-out;
+        &.open{
+            max-height: 1000px;
+        }
+        .navbar{
+            width: 100%;
+            .navbar-nav{
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: flex-start;
+                margin-left: 0;
+                .nav-item{
+                    padding: 0;
+                }
+            }
+        }
+        .logo-container{
+            width: 100%;
+        }
+
+        .hamburger-icon{
+            display: block;
+            position: absolute;
+            top: 7px;
+            right: 15px;
+            left: unset;
+        }
+    }
+}

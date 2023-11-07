@@ -1,0 +1,104 @@
+@import "../../config/global-config-styles.scss";
+
+.banner {
+
+    font-size: 18px;
+    color: clr(text-color);
+    background: clr(banner-background);
+
+    .banner-content {
+        display: flex;
+        justify-content: center;
+
+        &>div {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            @media (max-width: 767px) {
+                width: 100%;
+            }
+        }
+    
+        .left {
+            justify-content: flex-start;
+            align-items: center;
+            img{
+                height: 80%;
+                
+            }
+        }
+    
+        .right {
+            flex-flow: column;
+            align-items: flex-start;
+    
+            h3,
+            h1 {
+                font-weight: bold;
+                margin: 0;
+                line-height: 1;
+            }
+    
+            h3 {
+                font-size: 120%;
+                @media (max-width: 767px) {
+                    font-size: 80%;
+                }
+            }
+    
+            h1 {
+                font-size: 350%;
+                @media (max-width: 767px) {
+                    font-size: 200%;
+                }
+            }
+    
+            p {
+                margin-top: 20px;
+                @media (max-width: 767px) {
+                    font-size: 80%;
+                }
+            }
+    
+            .btn-container {
+                width: 100%;
+                display: flex;
+            }
+    
+            .btn {
+                color: clr(banner-button-text-color);
+                background: clr(banner-button-background-color);
+                border: unset;
+                outline: none;
+                border-radius: 100px;
+                box-shadow: rgba(0, 0, 0,  0.25) 0px 10px 30px;
+                cursor: pointer;
+                display: block;
+                flex: 1 1 0%;
+                font-size: 10px;
+                font-weight: bold;
+                margin-right: 20px;
+                padding: 15px 25px;
+                position: relative;
+                text-align: center;
+                text-transform: uppercase;
+                top: 0px;
+                user-select: none;
+                white-space: nowrap;
+            }
+        }
+
+    
+    }
+
+    &.lft{
+        .banner-content{
+            flex-direction: row-reverse;
+            .left{
+                justify-content: flex-end;
+            }
+        }
+
+    }
+}

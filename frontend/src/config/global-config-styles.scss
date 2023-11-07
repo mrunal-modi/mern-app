@@ -1,0 +1,42 @@
+// Global
+
+$themeColours: (
+    theme-text-color: #f2f2f2,
+    // theme-background-color: #2c6bcc,
+    theme-background-color: #dc3545,
+);
+
+@function getThemeColour($name) {
+    $color: map-get($themeColours, $name);
+    @return $color;
+}
+
+$colours: (
+    // Navbar colors
+    navbar-text-color: getThemeColour(theme-text-color),
+    navbar-background-color: getThemeColour(theme-background-color),
+
+    // Banner colors
+    banner-text-color: #000,
+    banner-background: getThemeColour(theme-text-color),
+    banner-button-text-color: getThemeColour(theme-text-color),
+    banner-button-background-color: getThemeColour(theme-background-color),
+
+    // Contact-Us Form Button colors
+    contact-us-button-text-color: getThemeColour(theme-text-color),
+    contact-us-button-background-color: getThemeColour(theme-background-color),
+);
+
+@function clr($name) {
+    $color: map-get($colours, $name);
+    @return $color;
+}
+
+@each $color, $value in $colours {
+    .#{$color}Color {
+        color: clr($color)
+    }
+    :root {
+        --#{$color}Color: #{$value}
+    }
+}

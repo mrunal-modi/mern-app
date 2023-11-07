@@ -1,0 +1,10 @@
+# Ignore
+node_modules
+.env.local
+.env*
+.env
+.next
+secret
+data
+*.png
+db.json

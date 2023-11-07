@@ -1,0 +1,14 @@
+.user-profile-pic{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+    img{
+        margin-bottom: 10px;
+    }
+    .user-full-name{
+        font-weight: bold;
+        // text-decoration: underline;
+        // text-underline-offset: 5px;
+    }
+}

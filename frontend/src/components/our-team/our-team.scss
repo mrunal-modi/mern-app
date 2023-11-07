@@ -1,0 +1,14 @@
+.team{
+    padding-top: 20px;
+    .team-content{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+        .user-profile-pic {
+            width: calc(33% - 40px);
+            margin: 20px ;
+        }
+    }
+    
+}
