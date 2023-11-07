@@ -49,7 +49,7 @@ const Crud = () => {
             setResetInput(false);
             setError(false);
             setSubmitting(true);
-            const res = await services._create(d.email);;
+            const res = await services._create(d.task);
             if (res.status === 200) {
                 setSuccess(true);
                 setResetInput(true);
@@ -84,11 +84,11 @@ const Crud = () => {
     };
 
     // Update
-    const handleChange = async (email, value) => {
+    const handleChange = async (task, value) => {
         try {
-            const res = await services._update(email, value);
+            const res = await services._update(task, value);
             const d = [...data];
-            const i = d.findIndex((el) => el.email === email);
+            const i = d.findIndex((el) => el.task === task);
             if (i !== -1) {
                 d[i] = res.data;
             }
@@ -102,13 +102,13 @@ const Crud = () => {
     };
 
     // Delete
-    const deleteData = async (email) => {
+    const deleteData = async (task) => {
         try {
             setLoading(true);
-            const res = await services._delete(email);
+            const res = await services._delete(task);
             console.log(res.data);
             const d = [...data];
-            const i = d.findIndex((el) => el.email === email);
+            const i = d.findIndex((el) => el.task === task);
             if (i !== -1) {
                 d.splice(i, 1);
             }
@@ -145,8 +145,8 @@ const Crud = () => {
                             {
                                 label: "",
                                 type: "text",
-                                validation: "email",
-                                name: "email",
+                                validation: "task",
+                                name: "task",
                                 placeholder: "Enter Text"
                             }
                         ]
@@ -163,12 +163,12 @@ const Crud = () => {
                 {data?.map((el, i) => (
                     <EditItemUI
                         onChange={(value) => {
-                            handleChange(el.email, value);
+                            handleChange(el.task, value);
                         }}
                         onDelete={() => {
-                            deleteData(el.email);
+                            deleteData(el.task);
                         }}
-                        item={el.email}
+                        item={el.task}
                         key={i}
                     />
                 ))}

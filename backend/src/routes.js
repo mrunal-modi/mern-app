@@ -4,10 +4,10 @@ const controller = require("./controller");
 
 // APIs > Controller
 router.post("/v1/todos", controller.create);
-router.get("/v1/todos/:email", controller.read); // Anything after colon is our variable that we use in the controller
+router.get("/v1/todos/:task", controller.read); // Anything after colon is our variable that we use in the controller
 router.get("/v1/todos", controller.readAll);
-router.put("/v1/todos/:email", controller.update); // Anything after colon is our variable that we use in the controller
-router.delete("/v1/todos/:email", controller._delete); // Anything after colon is our variable that we use in the controller
+router.put("/v1/todos/:task", controller.update); // Anything after colon is our variable that we use in the controller
+router.delete("/v1/todos/:task", controller._delete); // Anything after colon is our variable that we use in the controller
 
 //Healthcheck
 router.get("/healthcheck", (req, res) => {

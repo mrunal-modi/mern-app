@@ -2,15 +2,15 @@ const myModel = require("./model");
 
 const create = async (req, res) => {
   try {
-    const email = req.body.email;
-    const exists = await myModel.findOne({ email: email})
+    const task = req.body.task;
+    const exists = await myModel.findOne({ task: task})
     if (exists) {
       return res.status("400").json({
         error: "User already exists"
       })
     }
     // Create a Mongoose object
-    const user = new myModel({ email: email});
+    const user = new myModel({ task: task});
     // Saving to the DB Collection
     const result = await user.save(); 
     return res.json(result);
@@ -22,8 +22,8 @@ const create = async (req, res) => {
 
 const read = async (req, res) => {
   try {
-    const email = req.params.email;
-    const result = await myModel.findOne({ email: email });
+    const task = req.params.task;
+    const result = await myModel.findOne({ task: task });
     return res.json(result);
   } catch (err) {
     console.log(err);
@@ -33,10 +33,10 @@ const read = async (req, res) => {
 
 const readAll = async (req, res) => {
   try {
-    const email = req.query.email;
+    const task = req.query.task;
     const q = {};
-    if (email) {
-      q["email"] = email;
+    if (task) {
+      q["task"] = task;
     }
     const result = await myModel.find(q);
     return res.json(result);
@@ -48,10 +48,10 @@ const readAll = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    const email = req.params.email;
-    const result = await myModel.findOneAndUpdate({ email: email }, {
+    const task = req.params.task;
+    const result = await myModel.findOneAndUpdate({ task: task }, {
       $set: {
-        email: req.body.email
+        task: req.body.task
       }
     }, { new: true });
     return res.json(result);
@@ -63,8 +63,8 @@ const update = async (req, res) => {
 
 const _delete = async (req, res) => {
   try {
-    const email = req.params.email;
-    const result = await myModel.findOneAndDelete({ email: email });
+    const task = req.params.task;
+    const result = await myModel.findOneAndDelete({ task: task });
     return res.status(200).json(result);
   } catch (err) {
     console.log(err);

@@ -51,9 +51,9 @@
           "description": "Get all todos",
           "parameters": [
             {
-              "name": "email",
+              "name": "task",
               "in": "query",
-              "description": "Filter for todo by email"
+              "description": "Filter for todo by task"
             }
           ],
           "responses": {
@@ -63,13 +63,13 @@
           }
         }
       },
-      "/v1/todos/{email}": {
+      "/v1/todos/{task}": {
         "get": {
           "tags": ["Read"],
-          "description": "Get specific todo based on email",
+          "description": "Get specific todo based on task",
           "parameters": [
             {
-              "name": "email",
+              "name": "task",
               "in": "path",
               "description": "todo that we want to list"
             }
@@ -85,14 +85,14 @@
           "description": "Update specific record",
           "parameters": [
             {
-              "name": "email",
+              "name": "task",
               "in": "path",
-              "description": "email that we update"
+              "description": "task that we update"
             },
             {
-              "name": "email",
+              "name": "task",
               "in": "body",
-              "description": "new email",
+              "description": "new task",
               "schema": {
                 "$ref": "#/definitions/TodoSchema"
               }
@@ -110,10 +110,10 @@
         },
         "delete": {
           "tags": ["Delete"],
-          "description": "Delete specific todo based on email",
+          "description": "Delete specific todo based on task",
           "parameters": [
             {
-              "name": "email",
+              "name": "task",
               "in": "path",
               "description": "todo that we want to list"
             }
@@ -128,9 +128,9 @@
     },
     "definitions": {
       "TodoSchema": {
-        "required": [ "email" ],
+        "required": [ "task" ],
         "properties": {
-          "email": {
+          "task": {
             "type": "string"
           }
         }
