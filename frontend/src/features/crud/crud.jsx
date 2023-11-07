@@ -10,6 +10,7 @@ import EditItemUI from "../edit-item/edit-item";
 const Crud = () => {
 
     const [success, setSuccess] = useState(false);
+    const [backendConnected, setBackendConnected] = useState(true);
     const [error, setError] = useState();
     const [submitting, setSubmitting] = useState();
     // eslint-disable-next-line
@@ -76,6 +77,7 @@ const Crud = () => {
         catch (err) {
             setLoading(false);
             setError(err?.response?.data?.error);
+            setBackendConnected(false);
             console.log(err.response);
         }
 
@@ -120,6 +122,17 @@ const Crud = () => {
             console.log(err.response);
         }
     };
+
+    if (!backendConnected) {
+        return (
+            <div style={{padding:20}}>
+                <div className="crud-item card margin-bottom-20">
+                    <h1 style={{textAlign: "center"}} >
+                    No Backend Connected
+                    </h1>
+                </div></div>)
+
+    }
 
     return (
         <div className="crud-page">
