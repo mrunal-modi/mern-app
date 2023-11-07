@@ -22,38 +22,38 @@
     "produces": ["application/json"],
   
     "paths": {
-      "/user": {
+      "/v1/todos": {
         "post": {
           "tags": ["Create"],
-          "description": "Create new user",
+          "description": "Create new todo",
           "parameters": [
             {
               "name": "name",
               "in": "body",
-              "description": "User that we want to create using the Frontend Signup form",
+              "description": "Todo that we want to create using the Frontend Signup form",
               "schema": {
-                "$ref": "#/definitions/UserSchema"
+                "$ref": "#/definitions/TodoSchema"
               }
             }
           ],
           "produces": ["application/json"],
           "responses": {
             "200": {
-              "description": "New user is created",
+              "description": "New todo is created",
               "schema": {
-                "$ref": "#/definitions/UserSchema"
+                "$ref": "#/definitions/TodoSchema"
               }
             }
           }
         },
         "get": {
           "tags": ["Read"],
-          "description": "Get all users",
+          "description": "Get all todos",
           "parameters": [
             {
               "name": "email",
               "in": "query",
-              "description": "Filter for user by email"
+              "description": "Filter for todo by email"
             }
           ],
           "responses": {
@@ -63,15 +63,15 @@
           }
         }
       },
-      "/user/{email}": {
+      "/v1/todos/{email}": {
         "get": {
           "tags": ["Read"],
-          "description": "Get specific user based on email",
+          "description": "Get specific todo based on email",
           "parameters": [
             {
               "name": "email",
               "in": "path",
-              "description": "user that we want to list"
+              "description": "todo that we want to list"
             }
           ],
           "responses": {
@@ -94,7 +94,7 @@
               "in": "body",
               "description": "new email",
               "schema": {
-                "$ref": "#/definitions/UserSchema"
+                "$ref": "#/definitions/TodoSchema"
               }
             }
           ],
@@ -103,19 +103,19 @@
             "200": {
               "description": "Updated",
               "schema": {
-                "$ref": "#/definitions/UserSchema"
+                "$ref": "#/definitions/TodoSchema"
               }
             }
           }
         },
         "delete": {
           "tags": ["Delete"],
-          "description": "Delete specific user based on email",
+          "description": "Delete specific todo based on email",
           "parameters": [
             {
               "name": "email",
               "in": "path",
-              "description": "user that we want to list"
+              "description": "todo that we want to list"
             }
           ],
           "responses": {
@@ -127,7 +127,7 @@
       }
     },
     "definitions": {
-      "UserSchema": {
+      "TodoSchema": {
         "required": [ "email" ],
         "properties": {
           "email": {
