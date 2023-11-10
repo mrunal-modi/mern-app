@@ -3,11 +3,11 @@ const router = express.Router();
 const controller = require("./controller");
 
 // APIs > Controller
-router.post("/v1/todos", controller.create);
-router.get("/v1/todos/:task", controller.read); // Anything after colon is our variable that we use in the controller
-router.get("/v1/todos", controller.readAll);
-router.put("/v1/todos/:task", controller.update); // Anything after colon is our variable that we use in the controller
-router.delete("/v1/todos/:task", controller._delete); // Anything after colon is our variable that we use in the controller
+router.post("/todos", controller.create);
+router.get("/todos/:task", controller.read); // Anything after colon is our variable that we use in the controller
+router.get("/todos", controller.readAll);
+router.put("/todos/:task", controller.update); // Anything after colon is our variable that we use in the controller
+router.delete("/todos/:task", controller._delete); // Anything after colon is our variable that we use in the controller
 
 //Healthcheck
 router.get("/healthcheck", (req, res) => {

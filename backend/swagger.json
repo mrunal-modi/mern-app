@@ -22,7 +22,7 @@
     "produces": ["application/json"],
   
     "paths": {
-      "/v1/todos": {
+      "/todos": {
         "post": {
           "tags": ["Create"],
           "description": "Create new todo",
@@ -63,7 +63,7 @@
           }
         }
       },
-      "/v1/todos/{task}": {
+      "/todos/{task}": {
         "get": {
           "tags": ["Read"],
           "description": "Get specific todo based on task",

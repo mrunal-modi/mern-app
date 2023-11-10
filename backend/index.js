@@ -12,7 +12,7 @@ const swaggerDocument = require("./swagger.json");
 require("./src/db");
 
 // used to serve static files from public directory
-app.use(express.static("public"));
+// app.use(express.static("public"));
 app.use(cors());
 
 // Data parser - used to parse post data
@@ -20,13 +20,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Routes
-app.use("/api/", routes);
+app.use("/api", routes);
 
 // Swagger URL /
 var options = {
   explorer: true,
   swaggerOptions: {
-    url: "/api/api-docs/swagger.json",
+    url: "/api-docs/swagger.json",
   },
 };
 app.use("/", swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
