@@ -58,7 +58,7 @@ spec:
             configMapKeyRef:
               key: REFRESH_SECRET
               name: backend-env
-        image: mmodi/backend:latest
+        image: mmodi/backend-prd:latest
         imagePullPolicy: Always
         name: backend
         resources: {}

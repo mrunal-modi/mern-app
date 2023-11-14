@@ -17,7 +17,7 @@ spec:
         service: frontend
     spec:
       containers:
-        - image: mmodi/frontend:latest
+        - image: mmodi/frontend-prd:latest
           imagePullPolicy: ""
           name: frontend
           resources: {}
