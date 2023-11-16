@@ -9,7 +9,7 @@
         "url": "https://devstacktutor.com"
       }
     },
-    "host": "localhost:8080",
+    "host": "",
     "basePath": "/api",
     "tags": [
       {
