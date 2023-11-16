@@ -2,11 +2,11 @@ kind: Service
 apiVersion: v1
 metadata:
   name: nginx-service
-  namespace: myapp
+  namespace: mern-app
 spec:
   type: LoadBalancer
   selector:
-    app: nginx-myapp
+    app: nginx-mern-app
   ports:
   - protocol: TCP
     port: 80
