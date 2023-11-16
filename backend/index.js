@@ -29,7 +29,7 @@ var options = {
     url: "/api-docs/swagger.json",
   },
 };
-app.use("/", swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
 
 // listen
 var port = process.env.PORT || 8080;
