@@ -12,7 +12,7 @@ spec:
       kind: path
       name: frontend-svc
   rules:
-  - host: demo.com
+  - host: prd.myexampleapp.com
     http:
       paths:
       - pathType: Prefix
