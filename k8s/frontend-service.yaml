@@ -4,7 +4,7 @@ metadata:
   labels:
     app: mern-app-prd
     component: frontend
-  name: frontend
+  name: frontend-svc
   namespace: mern-app-prd
 spec:
   ports:
