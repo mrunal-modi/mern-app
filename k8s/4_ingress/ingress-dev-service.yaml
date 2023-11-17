@@ -2,7 +2,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: nginx-service
-  namespace: mern-app
+  namespace: mern-app-dev
 spec:
   type: LoadBalancer
   selector:

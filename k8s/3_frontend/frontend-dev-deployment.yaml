@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: frontend-dev
+  name: frontend-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: frontend-dev
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        service: frontend-dev
+    spec:
+      containers:
+        - image: mmodi/frontend-dev:latest
+          imagePullPolicy: ""
+          name: frontend-dev
+          resources: {}
+      restartPolicy: Always
+      serviceAccountName: ""
+status: {}

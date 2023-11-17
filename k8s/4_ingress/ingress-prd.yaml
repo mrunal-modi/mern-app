@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: 3tier-ingress
-  namespace: mern-app
+  namespace: mern-app-prd
   labels:
     app: nginx-mern-app
 spec:
