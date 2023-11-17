@@ -7,5 +7,5 @@ spec:
   - protocol: 
     port: 80
   selector:
-    service: frontend
+    service: frontend-svc
   type: NodePort

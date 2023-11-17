@@ -7,10 +7,6 @@ metadata:
     app: nginx-mern-app
 spec:
   ingressClassName: nginx
-  defaultBackend:
-    resource:
-      kind: path
-      name: frontend-svc
   rules:
   - host: prd.myexampleapp.com
     http:
