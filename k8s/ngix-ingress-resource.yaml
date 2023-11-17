@@ -14,21 +14,21 @@ spec:
       paths:
       - backend:
           service:
-            name: backend
+            name: backend-svc
             port:
               number: 8080
         path: /api-docs
         pathType: Prefix
       - backend:
           service:
-            name: backend
+            name: backend-svc
             port:
               number: 8080
         path: /api
         pathType: Prefix
       - backend:
           service:
-            name: frontend
+            name: frontend-svc
             port:
               number: 80
         path: /
