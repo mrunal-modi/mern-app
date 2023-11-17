@@ -2,26 +2,29 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    service: frontend-svc
+    app: mern-app-prd
+    component: frontend
   name: frontend
   namespace: mern-app-prd
 spec:
   replicas: 1
   selector:
     matchLabels:
-      service: frontend-svc
+      app: mern-app-prd
+      component: frontend
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        service: frontend-svc
+        app: mern-app-prd
+        component: frontend
     spec:
       containers:
-        - image: mmodi/frontend-prd:latest
-          imagePullPolicy: ""
-          name: frontend
-          resources: {}
+      - image: mmodi/frontend-prd:latest
+        imagePullPolicy: ''
+        name: frontend
+        resources: {}
       restartPolicy: Always
-      serviceAccountName: ""
+      serviceAccountName: ''
 status: {}

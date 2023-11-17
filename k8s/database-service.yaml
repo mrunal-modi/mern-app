@@ -1,13 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app: mern-app-prd
+    component: database
   name: database-svc
   namespace: mern-app-prd
 spec:
   ports:
-  - protocol: 
-    port: 27017
-    #NodePort: 8090
+  - port: 27017
+    protocol: null
   selector:
     service: database
   type: NodePort

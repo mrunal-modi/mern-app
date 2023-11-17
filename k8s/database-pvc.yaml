@@ -1,12 +1,15 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  labels:
+    app: mern-app-prd
+    component: database
   name: database-pvc
   namespace: mern-app-prd
 spec:
-  storageClassName: sc-nas-svm1
   accessModes:
   - ReadWriteMany
   resources:
-     requests:
-       storage: 10Gi
+    requests:
+      storage: 10Gi
+  storageClassName: sc-nas-svm1

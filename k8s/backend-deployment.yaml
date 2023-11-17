@@ -2,20 +2,23 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    service: backend
+    app: mern-app-prd
+    component: backend
   name: backend
   namespace: mern-app-prd
 spec:
   replicas: 1
   selector:
     matchLabels:
-      service: backend
+      app: mern-app-prd
+      component: backend
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        service: backend
+        app: mern-app-prd
+        component: backend
     spec:
       containers:
       - env:
@@ -64,4 +67,4 @@ spec:
         name: backend
         resources: {}
       restartPolicy: Always
-      serviceAccountName: ""
+      serviceAccountName: ''
