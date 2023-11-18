@@ -4,7 +4,7 @@ metadata:
   labels:
     app: mern-app-prd
     component: ingress
-  name: prd-ingress
+  name: dev-ingress
   namespace: mern-app-dev
 spec:
   ingressClassName: nginx
