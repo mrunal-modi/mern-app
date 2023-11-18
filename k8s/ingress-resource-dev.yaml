@@ -1,0 +1,35 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    app: mern-app-prd
+    component: ingress
+  name: prd-ingress
+  namespace: mern-app-dev
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: dev.myexampleapp.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: backend-svc
+            port:
+              number: 8080
+        path: /api-docs
+        pathType: Prefix
+      - backend:
+          service:
+            name: backend-svc
+            port:
+              number: 8080
+        path: /api
+        pathType: Prefix
+      - backend:
+          service:
+            name: frontend-svc
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
