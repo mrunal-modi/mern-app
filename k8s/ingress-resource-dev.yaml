@@ -28,7 +28,7 @@ spec:
         pathType: Prefix
       - backend:
           service:
-            name: frontend-svc
+            name: frontend-svc-dev
             port:
               number: 80
         path: /
