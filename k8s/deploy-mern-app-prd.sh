@@ -1,4 +1,3 @@
-cd ~mern-app/k8s
 kubectl apply -f metallb-config.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.0.0/deploy/static/provider/cloud/deploy.yaml
 kubectl apply -f clusterrole-file.yaml
