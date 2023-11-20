@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mern-app-dr
+    component: frontend-dr
+  name: frontend-dr
+  namespace: mern-app-dr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mern-app-dr
+      component: frontend-dr
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mern-app-dr
+        component: frontend-dr
+    spec:
+      containers:
+      - image: mmodi/frontend-dr:latest
+        imagePullPolicy: ''
+        name: frontend-dr
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ''
+status: {}
