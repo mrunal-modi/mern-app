@@ -10,4 +10,4 @@ kubectl apply -f frontend-deployment-dr.yaml
 kubectl apply -f frontend-service-dr.yaml
 kubectl apply -f ingress-resource-dr.yaml
 
-#echo "192.168.0.215 dr.myexampleapp.com" >> /etc/hosts
+#echo "192.168.0.231 dr.myexampleapp.com" >> /etc/hosts
