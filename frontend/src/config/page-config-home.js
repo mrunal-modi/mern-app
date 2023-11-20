@@ -6,6 +6,6 @@ export const bannerImage = "/images/logo.png";
 export const bannerIsLft = false;
 export const bannerButtons = [
     {
-        label: "Vist DevStackTutor.com",
-        href: "https://www.devstacktutor.com/Guides/quick-start"
+        label: "Start Learning",
+        href: "https://www.MyExampleApp.com/Guides/quick-start"
     }]
