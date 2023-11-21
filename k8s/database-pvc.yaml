@@ -11,5 +11,5 @@ spec:
   - ReadWriteMany
   resources:
     requests:
-      storage: 10Gi
+      storage: 10000Gi
   storageClassName: sc-nas-svm1
