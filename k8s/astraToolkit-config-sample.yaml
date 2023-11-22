@@ -1,5 +1,5 @@
 headers:
-  Authorization: Bearer Zdalgoul3piC2kwW1OErMG4Nlb00whTOR0Uz_oiJWrk=
+  Authorization: Bearer <Bearer-Token-From-API-Access-Page>
 uid: feb2b2c9-f3a7-4dec-a351-8ed73c0a44e0
 astra_project: astra.demo.netapp.com
 verifySSL: False
