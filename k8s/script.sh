@@ -52,17 +52,12 @@ replicate_prd_env() {
 }
 
 clone_dev_env() {
-    appType="prd" # Set this to "prd" or "dr"
     cloneAppName=mern-app-dev
     cloneNamespace=mern-app-dev
     ClusterName=rke1
     sourceAppName=mern-app-prd
     clusterID=$(actoolkit -o table list clusters | awk -v cn="$ClusterName" '$2==cn{print $4}')
-    if [ "$appType" = "prd" ]; then    
-        sourceAppID=$(actoolkit -o table list apps | awk -v sa="mern-app-prd" '$2==sa && !/replication destination/{print $4}')
-    else
-        sourceAppID=$(actoolkit -o table list apps | awk -v sa="mern-app-prd" '$2==sa && /replication destination/{print $4}')
-    fi
+    sourceAppID=$(actoolkit -o table list apps | awk -v sa="$sourceAppName" '$2==sa && !/replication destination/{print $4}')
     # Execute the command
     echo "actoolkit clone --cloneAppName $cloneAppName --clusterID $clusterID --cloneNamespace $cloneNamespace --sourceAppID $sourceAppID"
     actoolkit clone --cloneAppName $cloneAppName --clusterID $clusterID --cloneNamespace $cloneNamespace --sourceAppID $sourceAppID
@@ -84,20 +79,13 @@ delete_dev_env() {
 }
 
 clone_dr_env() {
-    appType="dr" # Set this to "prd" or "dr"
     export KUBECONFIG=/home/user/kubeconfigs/rke2/kube_config_cluster.yml
     cloneAppName=mern-app-prd
-    cloneNamespace=mern-app-dr
+    cloneNamespace=mern-app-dr-clone
     ClusterName=rke2
     sourceAppName=mern-app-prd
     clusterID=$(actoolkit -o table list clusters | awk -v cn="$ClusterName" '$2==cn{print $4}')
-    if [ "$appType" = "prd" ]; then
-        echo sourceAppID=$(actoolkit -o table list apps | awk -v sa="mern-app-prd" '$2==sa && !/replication destination/{print $4}')
-        sourceAppID=$(actoolkit -o table list apps | awk -v sa="mern-app-prd" '$2==sa && !/replication destination/{print $4}')
-    else
-        echo sourceAppID=$(actoolkit -o table list apps | awk -v sa="mern-app-prd" '$2==sa && /replication destination/{print $4}') 
-        sourceAppID=$(actoolkit -o table list apps | awk -v sa="mern-app-prd" '$2==sa && /replication destination/{print $4}')
-    fi
+    sourceAppID=$(actoolkit -o table list apps | awk -v app="$cloneAppName" '$0 ~ app " \\(replication destination\\)" {for (i=1; i<=NF; i++) if ($i ~ /^[a-f0-9-]+$/) print $i}')
     # Print the command for debugging
     echo "actoolkit clone --cloneAppName $cloneAppName --clusterID $clusterID --cloneNamespace $cloneNamespace --sourceAppID $sourceAppID"
     # Execute the command
