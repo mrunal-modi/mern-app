@@ -5,6 +5,7 @@ setup_actoolkit() {
     sudo apt-get install pip
     sudo python3 -m pip install actoolkit
     export PATH="/home/user/.local/bin:$PATH"
+    cp -p astraToolkit-config-sample.yaml config.yaml
 }
 
 deploy_prd_env(){
