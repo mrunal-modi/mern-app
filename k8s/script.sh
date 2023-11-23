@@ -10,15 +10,15 @@ setup_actoolkit() {
 
 setup_ingress_ctl() {
     export KUBECONFIG=/home/user/kubeconfigs/rke1/kube_config_cluster.yml
-    kubectl apply -f metallb-config.yaml
-    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.0.0/deploy/static/provider/cloud/deploy.yaml
     kubectl apply -f clusterrole-file.yaml
     kubectl apply -f clusterrolebinding-file.yaml
+    kubectl apply -f metallb-config.yaml
+    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.0.0/deploy/static/provider/cloud/deploy.yaml
     export KUBECONFIG=/home/user/kubeconfigs/rke2/kube_config_cluster.yml
-    kubectl apply -f metallb-config.yaml
-    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.0.0/deploy/static/provider/cloud/deploy.yaml
     kubectl apply -f clusterrole-file.yaml
     kubectl apply -f clusterrolebinding-file.yaml
+    kubectl apply -f metallb-config.yaml
+    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.0.0/deploy/static/provider/cloud/deploy.yaml
 }
 
 deploy_prd_env(){
@@ -75,13 +75,34 @@ delete_dev_env() {
     kubectl delete namespace $cloneNamespace
 }
 
-replicate_prd_env() {  
+replicate() {  
     destClusterName=rke2
     destNamespace=mern-app-dr
     appLogicalName=mern-app-prd
     appID=$(actoolkit -o table list apps | awk -v sa="$appLogicalName" '$2==sa{print $4}')
     destClusterID=$(actoolkit -o table list clusters | awk -v cn="$destClusterName" '$2==cn{print $4}')
     actoolkit create replication $appID -c $destClusterID -n $destNamespace -f 30m
+}
+
+failover() {
+    replicationID=$(actoolkit list replications | grep -Eo '^[|] [a-f0-9-]+ ' | awk '{print $2}')
+    actoolkit update replication $replicationID failover
+}
+
+deploy_dr_env(){
+    export KUBECONFIG=/home/user/kubeconfigs/rke3/kube_config_cluster.yml
+    kubectl delete deployment frontend -n mern-app-dr
+    kubectl delete service frontend-svc -n mern-app-dr
+    kubectl apply -f frontend-deployment-dr.yaml
+    kubectl apply -f frontend-service-dr.yaml
+    kubectl apply -f ingress-resource-dr.yaml
+}
+
+resync() {
+    appLogicalName=mern-app-prd
+    appID=$(actoolkit -o table list apps | awk -v sa="$appLogicalName" '$2==sa{print $4}')
+    replicationID=$(actoolkit list replications | grep -Eo '^[|] [a-f0-9-]+ ' | awk '{print $2}')
+    actoolkit update replication $replicationID resync -s $appID
 }
 
 # Main script execution
@@ -107,11 +128,17 @@ case $1 in
     delete_dev_env)
         delete_dev_env
         ;;
-    replicate_prd_env)
-        replicate_prd_env
+    replicate)
+        replicate
+        ;;
+    failover)
+        failover
+        ;;
+    resync)
+        resync
         ;;
     *)
-        echo "Usage: $0 [setup_actoolkit|setup_ingress_ctl|deploy_prd_env|define_prd_env|snap_prd_env|clone_dev_env|delete_dev_env|replicate_prd_env]"
+        echo "Usage: $0 [setup_actoolkit|setup_ingress_ctl|deploy_prd_env|define_prd_env|snap_prd_env|clone_dev_env|delete_dev_env|replicate|failover|deploy_dr_env|resync]"
         exit 1
         ;;
 esac
