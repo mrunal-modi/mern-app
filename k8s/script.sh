@@ -89,6 +89,9 @@ case $1 in
     setup_actoolkit)
         setup_actoolkit
         ;;
+    setup_ingress_ctl)
+        setup_ingress_ctl
+        ;;
     deploy_prd_env)
         deploy_prd_env
         ;;
@@ -108,7 +111,7 @@ case $1 in
         replicate_prd_env
         ;;
     *)
-        echo "Usage: $0 [setup_actoolkit|deploy_prd_env|define_prd_env|snap_prd_env|clone_dev_env|delete_dev_env|replicate_prd_env]"
+        echo "Usage: $0 [setup_actoolkit|setup_ingress_ctl|deploy_prd_env|define_prd_env|snap_prd_env|clone_dev_env|delete_dev_env|replicate_prd_env]"
         exit 1
         ;;
 esac
