@@ -52,14 +52,20 @@ replicate_prd_env() {
 }
 
 clone_dev_env() {
+    appType="prd" # Set this to "prd" or "dr"
     cloneAppName=mern-app-dev
     cloneNamespace=mern-app-dev
     ClusterName=rke1
     sourceAppName=mern-app-prd
     clusterID=$(actoolkit -o table list clusters | awk -v cn="$ClusterName" '$2==cn{print $4}')
-    sourceAppID=$(actoolkit -o table list apps | awk -v sa="$sourceAppName" '$2==sa{print $4}')
+    if [ "$appType" = "prd" ]; then    
+        sourceAppID=$(actoolkit -o table list apps | awk -v sa="mern-app-prd" '$2==sa && !/replication destination/{print $4}')
+    else
+         sourceAppID=$(actoolkit -o table list apps | awk -v sa="mern-app-prd" '$2==sa && /replication destination/{print $4}')
+    fi
     # Execute the command
-    actoolkit clone --cloneAppName $cloneAppName --clusterID $clusterID --cloneNamespace $cloneNamespace --sourceAppID $sourceAppID || { echo "actoolkit clone command failed"; exit 1; }
+    echo "actoolkit clone --cloneAppName $cloneAppName --clusterID $clusterID --cloneNamespace $cloneNamespace --sourceAppID $sourceAppID"
+    actoolkit clone --cloneAppName $cloneAppName --clusterID $clusterID --cloneNamespace $cloneNamespace --sourceAppID $sourceAppID
     kubectl delete deployment frontend -n $cloneNamespace || echo "Deployment frontend not found in namespace $cloneNamespace"
     kubectl delete service frontend-svc -n $cloneNamespace || echo "Service frontend-svc not found in namespace $cloneNamespace"
     kubectl apply -f frontend-deployment-dev.yaml || echo "Failed to apply frontend-deployment-dev.yaml"
@@ -78,13 +84,18 @@ delete_dev_env() {
 }
 
 clone_dr_env() {
+    appType="dr" # Set this to "prd" or "dr"
     export KUBECONFIG=/home/user/kubeconfigs/rke2/kube_config_cluster.yml
     cloneAppName=mern-app-prd
     cloneNamespace=mern-app-dr
     ClusterName=rke2
     sourceAppName=mern-app-prd
     clusterID=$(actoolkit -o table list clusters | awk -v cn="$ClusterName" '$2==cn{print $4}')
-    sourceAppID=$(actoolkit -o table list apps | awk -v sa="$sourceAppName" '$2==sa{print $4}')
+    if [ "$appType" = "prd" ]; then    
+        sourceAppID=$(actoolkit -o table list apps | awk -v sa="mern-app-prd" '$2==sa && !/replication destination/{print $4}')
+    else
+         sourceAppID=$(actoolkit -o table list apps | awk -v sa="mern-app-prd" '$2==sa && /replication destination/{print $4}')
+    fi
     # Print the command for debugging
     echo "actoolkit clone --cloneAppName $cloneAppName --clusterID $clusterID --cloneNamespace $cloneNamespace --sourceAppID $sourceAppID"
     # Execute the command
