@@ -61,7 +61,7 @@ clone_dev_env() {
     if [ "$appType" = "prd" ]; then    
         sourceAppID=$(actoolkit -o table list apps | awk -v sa="mern-app-prd" '$2==sa && !/replication destination/{print $4}')
     else
-         sourceAppID=$(actoolkit -o table list apps | awk -v sa="mern-app-prd" '$2==sa && /replication destination/{print $4}')
+        sourceAppID=$(actoolkit -o table list apps | awk -v sa="mern-app-prd" '$2==sa && /replication destination/{print $4}')
     fi
     # Execute the command
     echo "actoolkit clone --cloneAppName $cloneAppName --clusterID $clusterID --cloneNamespace $cloneNamespace --sourceAppID $sourceAppID"
@@ -91,10 +91,12 @@ clone_dr_env() {
     ClusterName=rke2
     sourceAppName=mern-app-prd
     clusterID=$(actoolkit -o table list clusters | awk -v cn="$ClusterName" '$2==cn{print $4}')
-    if [ "$appType" = "prd" ]; then    
+    if [ "$appType" = "prd" ]; then
+        echo sourceAppID=$(actoolkit -o table list apps | awk -v sa="mern-app-prd" '$2==sa && !/replication destination/{print $4}')
         sourceAppID=$(actoolkit -o table list apps | awk -v sa="mern-app-prd" '$2==sa && !/replication destination/{print $4}')
     else
-         sourceAppID=$(actoolkit -o table list apps | awk -v sa="mern-app-prd" '$2==sa && /replication destination/{print $4}')
+        echo sourceAppID=$(actoolkit -o table list apps | awk -v sa="mern-app-prd" '$2==sa && /replication destination/{print $4}') 
+        sourceAppID=$(actoolkit -o table list apps | awk -v sa="mern-app-prd" '$2==sa && /replication destination/{print $4}')
     fi
     # Print the command for debugging
     echo "actoolkit clone --cloneAppName $cloneAppName --clusterID $clusterID --cloneNamespace $cloneNamespace --sourceAppID $sourceAppID"
