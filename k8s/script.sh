@@ -8,11 +8,21 @@ setup_actoolkit() {
     cp -p actoolkit-sample-config.yaml config.yaml
 }
 
-deploy_prd_env(){
+setup_ingress_ctl() {
+    export KUBECONFIG=/home/user/kubeconfigs/rke1/kube_config_cluster.yml
     kubectl apply -f metallb-config.yaml
     kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.0.0/deploy/static/provider/cloud/deploy.yaml
     kubectl apply -f clusterrole-file.yaml
     kubectl apply -f clusterrolebinding-file.yaml
+    export KUBECONFIG=/home/user/kubeconfigs/rke2/kube_config_cluster.yml
+    kubectl apply -f metallb-config.yaml
+    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.0.0/deploy/static/provider/cloud/deploy.yaml
+    kubectl apply -f clusterrole-file.yaml
+    kubectl apply -f clusterrolebinding-file.yaml
+}
+
+deploy_prd_env(){
+    export KUBECONFIG=/home/user/kubeconfigs/rke1/kube_config_cluster.yml
     kubectl create ns mern-app-prd
     kubectl apply -f database-pvc.yaml
     kubectl apply -f database-deployment.yaml
@@ -30,25 +40,13 @@ define_prd_env() {
     appLogicalName=mern-app-prd
     namespaceName=mern-app-prd
     clusterID=$(actoolkit -o table list clusters | awk -v cn="$ClusterName" '$2==cn{print $4}')
-    # Execute the command
     actoolkit manage app $appLogicalName $namespaceName $clusterID || { echo "actoolkit manage app command failed"; exit 1; }
 }
 
-snap_prd_env() {   
+snap_prd_env() {
     appLogicalName=mern-app-prd
     appID=$(actoolkit -o table list apps | awk -v sa="$appLogicalName" '$2==sa{print $4}')
-    # Execute the command
     actoolkit create snapshot $appID snap1
-}
-
-replicate_prd_env() {  
-    destClusterName=rke2
-    destNamespace=mern-app-dr
-    appLogicalName=mern-app-prd
-    appID=$(actoolkit -o table list apps | awk -v sa="$appLogicalName" '$2==sa{print $4}')
-    destClusterID=$(actoolkit -o table list clusters | awk -v cn="$destClusterName" '$2==cn{print $4}')
-    # Execute the command
-    actoolkit create replication $appID -c $destClusterID -n $destNamespace -f 30m
 }
 
 clone_dev_env() {
@@ -77,6 +75,15 @@ delete_dev_env() {
     kubectl delete namespace $cloneNamespace
 }
 
+replicate_prd_env() {  
+    destClusterName=rke2
+    destNamespace=mern-app-dr
+    appLogicalName=mern-app-prd
+    appID=$(actoolkit -o table list apps | awk -v sa="$appLogicalName" '$2==sa{print $4}')
+    destClusterID=$(actoolkit -o table list clusters | awk -v cn="$destClusterName" '$2==cn{print $4}')
+    actoolkit create replication $appID -c $destClusterID -n $destNamespace -f 30m
+}
+
 # Main script execution
 case $1 in
     setup_actoolkit)
@@ -91,17 +98,17 @@ case $1 in
     snap_prd_env)
         snap_prd_env
         ;;
-    replicate_prd_env)
-        replicate_prd_env
-        ;;
     clone_dev_env)
         clone_dev_env
         ;;
     delete_dev_env)
         delete_dev_env
         ;;
+    replicate_prd_env)
+        replicate_prd_env
+        ;;
     *)
-        echo "Usage: $0 [setup_actoolkit|deploy_prd_env|define_prd_env|snap_prd_env|replicate_prd_env|clone_dev_env|delete_dev_env]"
+        echo "Usage: $0 [setup_actoolkit|deploy_prd_env|define_prd_env|snap_prd_env|clone_dev_env|delete_dev_env|replicate_prd_env]"
         exit 1
         ;;
 esac
