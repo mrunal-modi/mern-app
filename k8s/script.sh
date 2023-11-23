@@ -100,8 +100,21 @@ deploy_dr_env(){
 
 resync() {
     appLogicalName=mern-app-prd
-    appID=$(actoolkit -o table list apps | awk -v sa="$appLogicalName" '$2==sa{print $4}')
+    namespaceName=mern-app-prd
+    # appID=$(actoolkit -o table list apps | awk -v sa="$appLogicalName" '$2==sa{print $4}')
+    appID=$(actoolkit -o table list apps | awk -v app="$appLogicalName" -v ns="$namespaceName" '
+    NR>2 && $0 ~ app && $0 ~ ns {
+        match($0, /([a-f0-9-]{36})/)
+        appId=substr($0, RSTART, RLENGTH)
+        if ($0 ~ ns) {
+            print appId
+            exit
+        }
+    }')
+
     replicationID=$(actoolkit list replications | grep -Eo '^[|] [a-f0-9-]+ ' | awk '{print $2}')
+    echo -s $appID
+    echo actoolkit update replication $replicationID resync -s $appID
     actoolkit update replication $replicationID resync -s $appID
 }
 
