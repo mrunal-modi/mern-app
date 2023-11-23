@@ -73,35 +73,6 @@ delete_dev_env() {
     cloneAppName=mern-app-dev
     cloneNamespace=mern-app-dev
     cloneAppID=$(actoolkit -o table list apps | awk -v sa="$cloneAppName" '$2==sa{print $4}')
-    # Execute the commands
-    actoolkit unmanage app $cloneAppID
-    kubectl delete namespace $cloneNamespace
-}
-
-clone_dr_env() {
-    export KUBECONFIG=/home/user/kubeconfigs/rke2/kube_config_cluster.yml
-    cloneAppName=mern-app-prd
-    cloneNamespace=mern-app-dr-clone
-    ClusterName=rke2
-    sourceAppName=mern-app-prd
-    clusterID=$(actoolkit -o table list clusters | awk -v cn="$ClusterName" '$2==cn{print $4}')
-    sourceAppID=$(actoolkit -o table list apps | awk -v app="$cloneAppName" '$0 ~ app " \\(replication destination\\)" {for (i=1; i<=NF; i++) if ($i ~ /^[a-f0-9-]+$/) print $i}')
-    # Print the command for debugging
-    echo "actoolkit clone --cloneAppName $cloneAppName --clusterID $clusterID --cloneNamespace $cloneNamespace --sourceAppID $sourceAppID"
-    # Execute the command
-    actoolkit clone --cloneAppName $cloneAppName --clusterID $clusterID --cloneNamespace $cloneNamespace --sourceAppID $sourceAppID
-    kubectl delete deployment frontend -n $cloneNamespace
-    kubectl delete service frontend-svc -n $cloneNamespace
-    kubectl apply -f frontend-deployment-dev.yaml
-    kubectl apply -f frontend-service-dev.yaml
-    kubectl apply -f ingress-resource-dev.yaml
-}
-
-delete_dr_clone_env() {
-    export KUBECONFIG=/home/user/kubeconfigs/rke2/kube_config_cluster.yml
-    cloneAppName=mern-app-prd
-    cloneNamespace=mern-app-dr
-    cloneAppID=$(actoolkit -o table list apps | awk -v sa="$cloneAppName" '$2==sa{print $4}')
     actoolkit unmanage app $cloneAppID
     kubectl delete namespace $cloneNamespace
 }
@@ -129,14 +100,8 @@ case $1 in
     delete_dev_env)
         delete_dev_env
         ;;
-    clone_dr_env)
-        clone_dr_env
-        ;;
-    delete_dr_env)
-        delete_dr_env
-        ;;
     *)
-        echo "Usage: $0 [setup_actoolkit|deploy_prd_env|define_prd_env|snap_prd_env|replicate_prd_env|clone_dev_env|delete_dev_env|clone_dr_env|delete_dr_clone_env]"
+        echo "Usage: $0 [setup_actoolkit|deploy_prd_env|define_prd_env|snap_prd_env|replicate_prd_env|clone_dev_env|delete_dev_env]"
         exit 1
         ;;
 esac

@@ -5,7 +5,7 @@ metadata:
     app: mern-app-dr
     component: frontend-dr
   name: frontend-svc-dr
-  namespace: mern-app-dr-clone
+  namespace: mern-app-dr
 spec:
   ports:
   - port: 80
