@@ -111,9 +111,7 @@ resync() {
             exit
         }
     }')
-
     replicationID=$(actoolkit list replications | grep -Eo '^[|] [a-f0-9-]+ ' | awk '{print $2}')
-    echo -s $appID
     echo actoolkit update replication $replicationID resync -s $appID
     actoolkit update replication $replicationID resync -s $appID
 }
