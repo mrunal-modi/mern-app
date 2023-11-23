@@ -90,7 +90,7 @@ failover() {
 }
 
 deploy_dr_env(){
-    export KUBECONFIG=/home/user/kubeconfigs/rke3/kube_config_cluster.yml
+    export KUBECONFIG=/home/user/kubeconfigs/rke2/kube_config_cluster.yml
     kubectl delete deployment frontend -n mern-app-dr
     kubectl delete service frontend-svc -n mern-app-dr
     kubectl apply -f frontend-deployment-dr.yaml
@@ -133,6 +133,9 @@ case $1 in
         ;;
     failover)
         failover
+        ;;
+    deploy_dr_env)
+        deploy_dr_env
         ;;
     resync)
         resync
