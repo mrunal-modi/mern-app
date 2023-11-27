@@ -168,7 +168,12 @@ case $1 in
     delete_dev_env)
         delete_env dev
         ;;
-        
+    clone_test_env)
+        clone_env test
+        ;;
+    delete_test_env)
+        delete_env test
+        ;;
     clone_sit1_env)
         clone_env sit1
         ;;
