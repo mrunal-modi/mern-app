@@ -87,11 +87,11 @@ clone_env() {
     # Execute the command
     echo "actoolkit clone --cloneAppName $cloneAppName --clusterID $clusterID --cloneNamespace $cloneNamespace --sourceAppID $sourceAppID"
     actoolkit clone --cloneAppName $cloneAppName --clusterID $clusterID --cloneNamespace $cloneNamespace --sourceAppID $sourceAppID
-    kubectl delete deployment frontend -n $cloneNamespace || echo "Deployment frontend not found in namespace $cloneNamespace"
-    kubectl delete service frontend-svc -n $cloneNamespace || echo "Service frontend-svc not found in namespace $cloneNamespace"
-    kubectl apply -f frontend-deployment-dev.yaml || echo "Failed to apply frontend-deployment-dev.yaml"
-    kubectl apply -f frontend-service-dev.yaml || echo "Failed to apply frontend-service-dev.yaml"
-    kubectl apply -f ingress-resource-dev.yaml || echo "Failed to apply ingress-resource-dev.yaml"
+    kubectl delete deployment frontend -n $cloneNamespace
+    kubectl delete service frontend-svc -n $cloneNamespace
+    kubectl apply -f frontend-deployment-${env}.yaml
+    kubectl apply -f frontend-service-${env}.yaml
+    kubectl apply -f ingress-resource-${env}.yaml
 }
 
 delete_env() {
