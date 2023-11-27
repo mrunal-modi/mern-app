@@ -2,14 +2,14 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   labels:
-    app: mern-app-dev
+    app: mern-app-sit2
     component: ingress
-  name: dev-ingress
-  namespace: mern-app-dev
+  name: sit2-ingress
+  namespace: mern-app-sit2
 spec:
   ingressClassName: nginx
   rules:
-  - host: dev.myexampleapp.com
+  - host: sit2.myexampleapp.com
     http:
       paths:
       - backend:
@@ -28,7 +28,7 @@ spec:
         pathType: Prefix
       - backend:
           service:
-            name: frontend-svc-dev
+            name: frontend-svc-sit2
             port:
               number: 80
         path: /

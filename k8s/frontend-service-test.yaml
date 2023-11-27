@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mern-app-test
+    component: frontend-test
+  name: frontend-svc-test
+  namespace: mern-app-test
+spec:
+  ports:
+  - port: 80
+    protocol: null
+  selector:
+    app: mern-app-test
+    component: frontend-test
+  type: NodePort

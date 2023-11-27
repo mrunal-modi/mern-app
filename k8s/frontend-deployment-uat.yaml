@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mern-app-uat
+    component: frontend-uat
+  name: frontend-uat
+  namespace: mern-app-uat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mern-app-uat
+      component: frontend-uat
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mern-app-uat
+        component: frontend-uat
+    spec:
+      containers:
+      - image: mmodi/frontend-uat:latest
+        imagePullPolicy: ''
+        name: frontend-uat
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ''
+status: {}

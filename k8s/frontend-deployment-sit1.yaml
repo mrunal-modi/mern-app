@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mern-app-sit1
+    component: frontend-sit1
+  name: frontend-sit1
+  namespace: mern-app-sit1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mern-app-sit1
+      component: frontend-sit1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mern-app-sit1
+        component: frontend-sit1
+    spec:
+      containers:
+      - image: mmodi/frontend-sit1:latest
+        imagePullPolicy: ''
+        name: frontend-sit1
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ''
+status: {}

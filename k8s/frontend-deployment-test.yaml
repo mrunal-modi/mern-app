@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mern-app-test
+    component: frontend-test
+  name: frontend-test
+  namespace: mern-app-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mern-app-test
+      component: frontend-test
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mern-app-test
+        component: frontend-test
+    spec:
+      containers:
+      - image: mmodi/frontend-test:latest
+        imagePullPolicy: ''
+        name: frontend-test
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ''
+status: {}

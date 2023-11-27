@@ -75,6 +75,35 @@ delete_dev_env() {
     kubectl delete namespace $cloneNamespace
 }
 
+clone_env() {
+    export KUBECONFIG=/home/user/kubeconfigs/rke1/kube_config_cluster.yml
+    env=$1
+    cloneAppName="mern-app-${env}"
+    cloneNamespace="mern-app-${env}"
+    ClusterName=rke1
+    sourceAppName=mern-app-prd
+    clusterID=$(actoolkit -o table list clusters | awk -v cn="$ClusterName" '$2==cn{print $4}')
+    sourceAppID=$(actoolkit -o table list apps | awk -v sa="$sourceAppName" '$2==sa && !/replication destination/{print $4}')
+    # Execute the command
+    echo "actoolkit clone --cloneAppName $cloneAppName --clusterID $clusterID --cloneNamespace $cloneNamespace --sourceAppID $sourceAppID"
+    actoolkit clone --cloneAppName $cloneAppName --clusterID $clusterID --cloneNamespace $cloneNamespace --sourceAppID $sourceAppID
+    kubectl delete deployment frontend -n $cloneNamespace || echo "Deployment frontend not found in namespace $cloneNamespace"
+    kubectl delete service frontend-svc -n $cloneNamespace || echo "Service frontend-svc not found in namespace $cloneNamespace"
+    kubectl apply -f frontend-deployment-dev.yaml || echo "Failed to apply frontend-deployment-dev.yaml"
+    kubectl apply -f frontend-service-dev.yaml || echo "Failed to apply frontend-service-dev.yaml"
+    kubectl apply -f ingress-resource-dev.yaml || echo "Failed to apply ingress-resource-dev.yaml"
+}
+
+delete_env() {
+    export KUBECONFIG=/home/user/kubeconfigs/rke1/kube_config_cluster.yml
+    env=$1
+    cloneAppName="mern-app-${env}"
+    cloneNamespace="mern-app-${env}"
+    cloneAppID=$(actoolkit -o table list apps | awk -v sa="$cloneAppName" '$2==sa{print $4}')
+    actoolkit unmanage app $cloneAppID
+    kubectl delete namespace $cloneNamespace
+}
+
 replicate() {  
     destClusterName=rke2
     destNamespace=mern-app-dr
@@ -134,10 +163,29 @@ case $1 in
         snap_prd_env
         ;;
     clone_dev_env)
-        clone_dev_env
+        clone_env dev
         ;;
     delete_dev_env)
-        delete_dev_env
+        delete_env dev
+        ;;
+        
+    clone_sit1_env)
+        clone_env sit1
+        ;;
+    delete_sit1_env)
+        delete_env sit1
+        ;;
+    clone_sit2_env)
+        clone_env sit2
+        ;;
+    delete_dev_env)
+        delete_env sit2
+        ;;
+    clone_uat_env)
+        clone_env uat
+        ;;
+    delete_uat_env)
+        delete_env uat
         ;;
     replicate)
         replicate
