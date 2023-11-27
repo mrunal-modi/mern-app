@@ -183,7 +183,7 @@ case $1 in
     clone_sit2_env)
         clone_env sit2
         ;;
-    delete_dev_env)
+    delete_sit2_env)
         delete_env sit2
         ;;
     clone_uat_env)
