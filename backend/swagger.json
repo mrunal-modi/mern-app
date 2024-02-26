@@ -5,8 +5,8 @@
       "title": "CRUD",
       "description": "Application API",
       "license": {
-        "name": "devstacktutor",
-        "url": "https://devstacktutor.com"
+        "name": "MyExampleApp",
+        "url": "https://MyExampleApp.com"
       }
     },
     "host": "",
