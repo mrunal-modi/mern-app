@@ -85,8 +85,8 @@ clone_env() {
     clusterID=$(actoolkit -o table list clusters | awk -v cn="$ClusterName" '$2==cn{print $4}')
     sourceAppID=$(actoolkit -o table list apps | awk -v sa="$sourceAppName" '$2==sa && !/replication destination/{print $4}')
     # Execute the command
-    echo "actoolkit clone --cloneAppName $cloneAppName --clusterID $clusterID --cloneNamespace $cloneNamespace --sourceAppID $sourceAppID"
-    actoolkit clone --cloneAppName $cloneAppName --clusterID $clusterID --cloneNamespace $cloneNamespace --sourceAppID $sourceAppID
+    echo "actoolkit clone $sourceAppID $cloneAppName $clusterID --newNamespace $cloneNamespace"
+    actoolkit clone $sourceAppID $cloneAppName $clusterID --newNamespace $cloneNamespace
     kubectl delete deployment frontend -n $cloneNamespace
     kubectl delete service frontend-svc -n $cloneNamespace
     kubectl apply -f frontend-deployment-${env}.yaml
